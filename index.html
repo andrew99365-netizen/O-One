@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>∅ ONE™ — NOT MADE TO FIT IN</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'Cairo', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace']
+                    },
+                    colors: {
+                        obsidian: '#080808',
+                        charcoal: '#121212',
+                        concrete: '#1E1E1E',
+                        ash: '#8E8E93',
+                        chalk: '#F5F5F7'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #080808; }
+        ::-webkit-scrollbar-thumb { background: #2c2c2e; border-radius: 9999px; }
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-obsidian text-chalk font-sans antialiased selection:bg-white selection:text-black overflow-x-hidden">
+
+    <!-- ADMIN TOP BAR -->
+    <div id="admin-banner" class="hidden sticky top-0 z-50 bg-white text-black px-4 py-2.5 shadow-xl border-b border-neutral-300">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm font-bold">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>وضع الأدمن مُفعّل (ADMIN MODE) — لك كامل الصلاحيات</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="openAdminDrawer('products')" class="bg-black text-white px-3 py-1.5 rounded-lg hover:bg-neutral-800 transition">لوحة التحكم</button>
+                <button onclick="logoutAdmin()" class="bg-neutral-200 text-black px-3 py-1.5 rounded-lg hover:bg-neutral-300 transition">خروج</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANNOUNCEMENT -->
+    <div class="bg-charcoal border-b border-white/10 text-[11px] sm:text-xs tracking-widest uppercase py-2 px-4 text-center font-mono text-neutral-300 flex items-center justify-between">
+        <span class="hidden sm:inline opacity-60">EST. 2025 // EGYPT</span>
+        <span id="site-announcement" class="mx-auto font-semibold">DROP 01: "CREATE YOUR OWN DIRECTION" — شحن مجاني للطلبات فوق 2500 EGP</span>
+        <span class="hidden sm:inline opacity-60">01 SERIES</span>
+    </div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 bg-obsidian/85 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 bg-white text-black rounded-xl flex items-center justify-center p-1.5">
+                    <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
+                        <path d="M25 22 H68 L58 36 H34 C29 36 26 39 26 44 V62 L14 74 V40 C14 29 18 22 25 22 Z"/>
+                        <path d="M75 78 H32 L42 64 H66 C71 64 74 61 74 56 V38 L86 26 V60 C86 71 82 78 75 78 Z"/>
+                        <polygon points="88,12 93,17 12,88 7,83"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col text-left" dir="ltr">
+                    <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight leading-none text-white">∅ ONE<sup class="text-[10px] ml-0.5">TM</sup></span>
+                    <span class="text-[9px] font-mono tracking-[0.25em] text-neutral-400 uppercase mt-0.5">STREETWEAR</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-neutral-300">
+                <a href="#collection" class="hover:text-white transition">المجموعة الجديدة</a>
+                <a href="#manifesto" class="hover:text-white transition">هوية البراند</a>
+                <a href="#lookbook" class="hover:text-white transition">Lookbook</a>
+                <button onclick="openSizeGuideModal()" class="hover:text-white transition">دليل المقاسات العام</button>
+            </nav>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="handleAdminTrigger()" title="إدارة المتجر" class="p-2.5 rounded-xl text-neutral-500 hover:text-white hover:bg-white/5 transition">
+                    <i id="admin-lock-icon" class="fa-solid fa-lock text-sm"></i>
+                </button>
+                <button onclick="toggleCart(true)" class="relative flex items-center gap-2 bg-white text-black px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-neutral-200 transition">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="hidden sm:inline">الحقيبة</span>
+                    <span id="cart-badge" class="bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-mono">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-[85vh] flex items-center bg-grid-pattern border-b border-white/10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                <div class="lg:col-span-6 space-y-6 text-right z-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/15 text-xs font-mono text-neutral-300">
+                        <span class="w-2 h-2 rounded-full bg-white"></span>
+                        <span>INDEPENDENT STREETWEAR // 01</span>
+                    </div>
+                    <h1 id="hero-title" class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-[1.08] text-white">CREATE YOUR OWN DIRECTION.</h1>
+                    <p id="hero-subtitle" class="text-neutral-400 text-base sm:text-lg max-w-xl leading-relaxed">تصميمات استثنائية مستوحاة من العمارة الحديثة والرموز الرقمية. خامات ثقيلة وقصّات Oversized صُممت خصيصاً لمن يرفض القوالب الجاهزة.</p>
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#collection" class="bg-white text-black px-8 py-4 rounded-xl font-bold text-sm sm:text-base hover:bg-neutral-200 transition flex items-center gap-3">
+                            <span>تسوق المجموعة الآن</span>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-6 relative">
+                    <div class="relative rounded-3xl overflow-hidden border border-white/15 bg-charcoal aspect-[4/5] shadow-2xl">
+                        <img id="hero-image" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=85" alt="Hero" class="w-full h-full object-cover grayscale contrast-125">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS COLLECTION -->
+    <section id="collection" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+                <span class="font-mono text-xs text-neutral-400 uppercase block mb-2">// DROP 01 COLLECTION</span>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">أحدث الإصدارات</h2>
+            </div>
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                <button onclick="filterProducts('all')" data-cat="all" class="filter-btn active px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-black transition whitespace-nowrap">الكل</button>
+                <button onclick="filterProducts('hoodies')" data-cat="hoodies" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-charcoal text-neutral-300 border border-white/10 hover:border-white/30 transition whitespace-nowrap">هوديز</button>
+                <button onclick="filterProducts('tees')" data-cat="tees" class="filter-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-charcoal text-neutral-300 border border-white/10 hover:border-white/30 transition whitespace-nowrap">تيشيرتات</button>
+            </div>
+        </div>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"></div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section id="manifesto" class="py-20 bg-charcoal border-y border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="rounded-3xl bg-obsidian border border-white/10 p-8 sm:p-14 text-center max-w-4xl mx-auto">
+                <h2 id="manifesto-headline" class="font-display font-extrabold text-3xl sm:text-5xl text-white mb-4">NOT MADE TO FIT IN.</h2>
+                <p class="text-neutral-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">في ∅ ONE نؤمن أن الملابس ليست مجرد قماش، بل هي موقف وهوية بصرية.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHATSAPP FLOAT -->
+    <a id="whatsapp-float-btn" href="https://wa.me/201000000000" target="_blank" class="fixed bottom-6 left-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:scale-110">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal border-t border-white/10 pt-14 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-right flex flex-col sm:flex-row justify-between items-center text-xs text-neutral-500 gap-4">
+            <p>© 2025 ∅ ONE™ CLOTHING CO.</p>
+            <button onclick="handleAdminTrigger()" class="text-neutral-400 hover:text-white font-mono">[ADMIN ACCESS]</button>
+        </div>
+    </footer>
+
+    <!-- PRODUCT MODAL -->
+    <div id="product-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-charcoal border border-white/15 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+            <div class="grid grid-cols-1 md:grid-cols-2 overflow-y-auto">
+                <div class="aspect-square bg-obsidian"><img id="modal-prod-img" src="" class="w-full h-full object-cover"></div>
+                <div class="p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span id="modal-prod-cat" class="text-xs font-mono text-neutral-400"></span>
+                            <button onclick="closeProductModal()" class="w-8 h-8 rounded-full bg-white/10 text-white hover:bg-white hover:text-black flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <h3 id="modal-prod-title" class="font-display font-bold text-2xl text-white mt-2"></h3>
+                        <p id="modal-prod-price" class="font-mono text-xl font-bold text-white mt-2"></p>
+                        <p id="modal-prod-desc" class="text-sm text-neutral-400 mt-4"></p>
+                        <div id="modal-extra-details-wrapper" class="mt-4 hidden bg-obsidian/60 p-3 rounded-xl border border-white/10">
+                            <h4 class="text-xs font-bold text-white mb-1">// تفاصيل إضافية</h4>
+                            <p id="modal-prod-extra-details" class="text-xs text-neutral-300 whitespace-pre-line"></p>
+                        </div>
+                        <div class="mt-6">
+                            <span class="text-xs font-bold text-neutral-300 block mb-2">اختر المقاس:</span>
+                            <div id="modal-sizes" class="flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+                    <button onclick="confirmAddToCart()" class="mt-8 w-full bg-white text-black py-3 rounded-xl font-bold text-sm hover:bg-neutral-200 transition">أضف إلى الحقيبة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+        <div onclick="toggleCart(false)" class="absolute inset-0 bg-black/75 backdrop-blur-sm"></div>
+        <div class="absolute top-0 left-0 bottom-0 w-full max-w-md bg-charcoal border-r border-white/15 flex flex-col justify-between p-6 shadow-2xl">
+            <div class="flex items-center justify-between pb-4 border-b border-white/10">
+                <h3 class="font-display font-bold text-xl text-white">حقيبة التسوق</h3>
+                <button onclick="toggleCart(false)" class="w-9 h-9 rounded-xl bg-white/10 text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="cart-items-container" class="flex-1 overflow-y-auto py-4 space-y-4"></div>
+            <div class="pt-4 border-t border-white/10 space-y-3">
+                <div class="space-y-2 bg-obsidian p-3.5 rounded-2xl border border-white/10 text-xs">
+                    <div class="flex justify-between text-neutral-400"><span>المجموع:</span><span id="cart-subtotal" class="font-mono text-white">0 EGP</span></div>
+                    <div class="flex justify-between text-neutral-400"><span>الشحن (<span id="selected-governorate-label">القاهرة</span>):</span><span id="shipping-cost-display" class="font-mono text-white">0 EGP</span></div>
+                    <div class="flex justify-between text-sm font-bold pt-2 border-t border-white/10 text-white"><span>الإجمالي:</span><span id="cart-total" class="font-mono text-xl">0 EGP</span></div>
+                </div>
+                <div id="checkout-fields" class="space-y-2.5 hidden">
+                    <input type="text" id="cust-name" placeholder="الاسم بالكامل" class="w-full bg-obsidian border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    <input type="tel" id="cust-phone" placeholder="رقم الموبايل (واتساب)" class="w-full bg-obsidian border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    <select id="cust-governorate" onchange="onGovernorateChange()" class="w-full bg-obsidian border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white"></select>
+                    <input type="text" id="cust-address" placeholder="العنوان بالتفصيل" class="w-full bg-obsidian border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                </div>
+                <button onclick="processCheckout()" class="w-full bg-white text-black py-3.5 rounded-xl font-bold text-sm">إتمام الطلب الآن</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-charcoal border border-white/20 rounded-3xl max-w-sm w-full p-7 shadow-2xl text-center">
+            <h3 class="font-display font-bold text-xl text-white mb-2">دخول الأدمن</h3>
+            <form onsubmit="submitAdminLogin(event)" class="space-y-4">
+                <input type="password" id="admin-password-input" placeholder="كلمة المرور (0one2025)" required class="w-full bg-obsidian border border-white/20 rounded-xl px-4 py-3 text-center text-white tracking-widest">
+                <div class="flex gap-2">
+                    <button type="submit" class="flex-1 bg-white text-black py-3 rounded-xl font-bold text-sm">دخول</button>
+                    <button type="button" onclick="closeAdminLogin()" class="px-4 py-3 rounded-xl bg-obsidian border border-white/15 text-neutral-300 text-sm">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN DRAWER -->
+    <div id="admin-drawer" class="fixed inset-0 z-50 hidden">
+        <div onclick="closeAdminDrawer()" class="absolute inset-0 bg-black/80"></div>
+        <div class="absolute top-0 right-0 bottom-0 w-full max-w-2xl bg-charcoal border-l border-white/15 flex flex-col shadow-2xl">
+            <div class="p-6 border-b border-white/10 flex items-center justify-between bg-obsidian">
+                <h2 class="font-display font-extrabold text-xl text-white">لوحة تحكم ∅ ONE</h2>
+                <button onclick="closeAdminDrawer()" class="w-9 h-9 rounded-xl bg-white/10 text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="flex border-b border-white/10 bg-obsidian/60 px-4 gap-2 overflow-x-auto no-scrollbar">
+                <button onclick="switchAdminTab('products')" id="tab-btn-products" class="py-3 px-4 text-xs font-bold border-b-2 border-white text-white whitespace-nowrap">المنتجات</button>
+                <button onclick="switchAdminTab('shipping')" id="tab-btn-shipping" class="py-3 px-4 text-xs font-bold border-b-2 border-transparent text-neutral-400 whitespace-nowrap">الشحن</button>
+                <button onclick="switchAdminTab('orders')" id="tab-btn-orders" class="py-3 px-4 text-xs font-bold border-b-2 border-transparent text-neutral-400 whitespace-nowrap">الطلبات (<span id="orders-count-badge">0</span>)</button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- PRODUCTS TAB -->
+                <div id="admin-tab-products" class="space-y-6">
+                    <div class="bg-obsidian border border-white/10 rounded-2xl p-5 space-y-3">
+                        <h3 class="font-bold text-white text-sm">إضافة / تعديل منتج</h3>
+                        <input type="hidden" id="edit-prod-id">
+                        <input type="text" id="prod-name-input" placeholder="اسم القطعة" class="w-full bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+                        <input type="number" id="prod-price-input" placeholder="السعر" class="w-full bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+                        <select id="prod-cat-input" class="w-full bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+                            <option value="hoodies">هوديز</option>
+                            <option value="tees">تيشيرتات</option>
+                        </select>
+                        <input type="text" id="prod-img-input" placeholder="رابط الصورة" class="w-full bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+                        <textarea id="prod-desc-input" placeholder="الوصف" class="w-full bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-sm text-white"></textarea>
+                        <textarea id="prod-extra-details-input" placeholder="تفاصيل ومواصفات إضافية" class="w-full bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-sm text-white"></textarea>
+                        <button onclick="saveProductFromAdmin()" class="w-full bg-white text-black py-2.5 rounded-xl font-bold text-sm">حفظ المنتج</button>
+                    </div>
+                    <div id="admin-products-list" class="space-y-2"></div>
+                </div>
+                <!-- SHIPPING TAB -->
+                <div id="admin-tab-shipping" class="hidden space-y-4">
+                    <div class="bg-obsidian border border-white/10 rounded-2xl p-5 space-y-3">
+                        <h3 class="font-bold text-white text-sm">أسعار الشحن للمحافظات</h3>
+                        <div class="flex gap-2">
+                            <input type="text" id="new-gov-name" placeholder="المحافظة" class="flex-1 bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+                            <input type="number" id="new-gov-price" placeholder="السعر" class="w-24 bg-charcoal border border-white/15 rounded-xl px-3 py-2 text-xs text-white">
+                            <button onclick="addNewGovernorate()" class="bg-white text-black px-4 py-2 rounded-xl text-xs font-bold">إضافة</button>
+                        </div>
+                        <div id="admin-governorates-list" class="space-y-2"></div>
+                    </div>
+                </div>
+                <!-- ORDERS TAB -->
+                <div id="admin-tab-orders" class="hidden space-y-4">
+                    <h3 class="font-bold text-white text-sm">طلبات العملاء</h3>
+                    <div id="admin-orders-list" class="space-y-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIZE GUIDE MODAL -->
+    <div id="size-guide-modal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-charcoal border border-white/15 rounded-3xl max-w-md w-full p-6 text-center">
+            <h3 class="font-display font-bold text-lg text-white mb-2">جدول المقاسات العام</h3>
+            <p class="text-xs text-neutral-400 mb-4">S | M | L | XL (قصّة Boxy Oversized)</p>
+            <button onclick="closeSizeGuideModal()" class="bg-white text-black px-6 py-2 rounded-xl text-xs font-bold">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast-notification" class="fixed bottom-6 right-6 z-50 hidden bg-white text-black px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm">
+        <span id="toast-message">تم بنجاح</span>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const storeState = {
+            adminPassword: '0one2025',
+            whatsappNumber: '201000000000',
+            governorates: [
+                { name: 'القاهرة / الجيزة', price: 60 },
+                { name: 'الإسكندرية', price: 75 },
+                { name: 'الدلتا', price: 80 }
+            ],
+            products: [
+                { id: 'p1', name: '01 BINARY CODE HOODIE', price: 1550, category: 'hoodies', badge: 'BEST SELLER', image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=85', sizes: ['S', 'M', 'L', 'XL'], description: 'هودي أسود فاحم بوزن 450 GSM', extraDetails: '- قطن مصري 100%\n- طباعة بارزة' },
+                { id: 'p2', name: 'LOST BETWEEN SPACES TEE', price: 890, category: 'tees', badge: 'NEW', image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=800&q=85', sizes: ['S', 'M', 'L', 'XL'], description: 'تيشيرت أوفر سايز', extraDetails: '- قطن ناعم' }
+            ],
+            orders: []
+        };
+
+        let isAdminLoggedIn = false;
+        let currentCat = 'all';
+        let cart = [];
+        let selectedProd = null;
+        let selectedSize = null;
+
+        window.onload = function() {
+            renderProducts();
+            updateCartUI();
+        };
+
+        function showToast(msg) {
+            const t = document.getElementById('toast-notification');
+            document.getElementById('toast-message').innerText = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 2500);
+        }
+
+        function filterProducts(cat) {
+            currentCat = cat;
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const items = currentCat === 'all' ? storeState.products : storeState.products.filter(p => p.category === currentCat);
+            grid.innerHTML = items.map(p => `
+                <div class="bg-charcoal border border-white/10 rounded-3xl overflow-hidden flex flex-col justify-between">
+                    <div class="relative aspect-[4/5] bg-obsidian cursor-pointer" onclick="openProductModal('${p.id}')">
+                        <img src="${p.image}" class="w-full h-full object-cover">
+                        ${p.badge ? `<span class="absolute top-4 right-4 bg-white text-black text-[10px] font-mono px-2.5 py-1 rounded-full font-bold">${p.badge}</span>` : ''}
+                    </div>
+                    <div class="p-5 flex flex-col justify-between flex-1">
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-white cursor-pointer" onclick="openProductModal('${p.id}')">${p.name}</h3>
+                            <p class="text-xs text-neutral-400 mt-1">${p.description}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                            <span class="font-mono font-bold text-white">${p.price} EGP</span>
+                            <button onclick="openProductModal('${p.id}')" class="bg-white/10 hover:bg-white hover:text-black text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openProductModal(id) {
+            const p = storeState.products.find(item => item.id === id);
+            if (!p) return;
+            selectedProd = p;
+            selectedSize = p.sizes[0];
+            document.getElementById('modal-prod-img').src = p.image;
+            document.getElementById('modal-prod-cat').innerText = p.category.toUpperCase();
+            document.getElementById('modal-prod-title').innerText = p.name;
+            document.getElementById('modal-prod-price').innerText = p.price + ' EGP';
+            document.getElementById('modal-prod-desc').innerText = p.description;
+            
+            const extra = document.getElementById('modal-extra-details-wrapper');
+            if (p.extraDetails) {
+                document.getElementById('modal-prod-extra-details').innerText = p.extraDetails;
+                extra.classList.remove('hidden');
+            } else {
+                extra.classList.add('hidden');
+            }
+
+            document.getElementById('modal-sizes').innerHTML = p.sizes.map(s => `
+                <button onclick="selectedSize='${s}'; openProductModal('${p.id}')" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold border ${selectedSize === s ? 'bg-white text-black border-white' : 'bg-obsidian text-white border-white/20'}">${s}</button>
+            `).join('');
+
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
+
+        function confirmAddToCart() {
+            if (!selectedProd) return;
+            cart.push({ ...selectedProd, size: selectedSize, qty: 1 });
+            closeProductModal();
+            updateCartUI();
+            toggleCart(true);
+            showToast('تمت الإضافة إلى الحقيبة');
+        }
+
+        function toggleCart(open) {
+            const drawer = document.getElementById('cart-drawer');
+            if (open) {
+                populateGovs();
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.add('hidden');
+            }
+        }
+
+        function populateGovs() {
+            const sel = document.getElementById('cust-governorate');
+            sel.innerHTML = storeState.governorates.map((g, i) => `<option value="${i}">${g.name} (${g.price} EGP)</option>`).join('');
+            onGovChange();
+        }
+
+        function getShipping() {
+            const sel = document.getElementById('cust-governorate');
+            const idx = sel ? sel.value : 0;
+            return storeState.governorates[idx] ? storeState.governorates[idx].price : 60;
+        }
+
+        function onGovChange() {
+            const sel = document.getElementById('cust-governorate');
+            const g = storeState.governorates[sel.value];
+            if (g) document.getElementById('selected-governorate-label').innerText = g.name;
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-badge').innerText = cart.reduce((a, b) => a + b.qty, 0);
+            const sub = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+            const ship = cart.length > 0 ? getShipping() : 0;
+            document.getElementById('cart-subtotal').innerText = sub + ' EGP';
+            document.getElementById('shipping-cost-display').innerText = ship + ' EGP';
+            document.getElementById('cart-total').innerText = (sub + ship) + ' EGP';
+
+            const container = document.getElementById('cart-items-container');
+            const fields = document.getElementById('checkout-fields');
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-center text-neutral-500 py-10 text-sm">الحقيبة فارغة</p>';
+                fields.classList.add('hidden');
+            } else {
+                fields.classList.remove('hidden');
+                container.innerHTML = cart.map((item, idx) => `
+                    <div class="flex gap-3 bg-obsidian p-3 rounded-xl border border-white/10 items-center text-xs">
+                        <img src="${item.image}" class="w-12 h-14 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-white">${item.name} (${item.size})</h4>
+                            <p class="font-mono text-neutral-400">${item.price} EGP</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) return;
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            if (!name || !phone || !address) {
+                showToast('يرجى ملء بيانات الاسم ورقم الهاتف والعنوان');
+                return;
+            }
+            const order = {
+                id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+                name, phone, address, items: [...cart], total: cart.reduce((a, b) => a + (b.price * b.qty), 0) + getShipping()
+            };
+            storeState.orders.unshift(order);
+            cart = [];
+            updateCartUI();
+            toggleCart(false);
+            if (isAdminLoggedIn) renderOrders();
+            showToast('تم استلام طلبك بنجاح! رقم الطلب: ' + order.id);
+        }
+
+        function handleAdminTrigger() {
+            if (isAdminLoggedIn) openAdminDrawer('products');
+            else document.getElementById('admin-login-modal').classList.remove('hidden');
+        }
+        function closeAdminLogin() { document.getElementById('admin-login-modal').classList.add('hidden'); }
+        function submitAdminLogin(e) {
+            e.preventDefault();
+            if (document.getElementById('admin-password-input').value === storeState.adminPassword) {
+                isAdminLoggedIn = true;
+                closeAdminLogin();
+                document.getElementById('admin-banner').classList.remove('hidden');
+                document.getElementById('admin-lock-icon').className = 'fa-solid fa-unlock text-emerald-400 text-sm';
+                openAdminDrawer('products');
+                showToast('تم الدخول كأدمن');
+            } else {
+                showToast('كلمة المرور خطأ');
+            }
+        }
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-banner').classList.add('hidden');
+            document.getElementById('admin-lock-icon').className = 'fa-solid fa-lock text-sm';
+            closeAdminDrawer();
+            showToast('تم الخروج');
+        }
+        function openAdminDrawer(tab) {
+            if (!isAdminLoggedIn) return;
+            document.getElementById('admin-drawer').classList.remove('hidden');
+            switchAdminTab(tab);
+        }
+        function closeAdminDrawer() { document.getElementById('admin-drawer').classList.add('hidden'); }
+        function switchAdminTab(t) {
+            ['products', 'shipping', 'orders'].forEach(tab => {
+                document.getElementById(`admin-tab-${tab}`).classList.add('hidden');
+            });
+            document.getElementById(`admin-tab-${t}`).classList.remove('hidden');
+            if (t === 'products') renderAdminProducts();
+            if (t === 'shipping') renderAdminGovs();
+            if (t === 'orders') renderOrders();
+        }
+
+        function renderAdminProducts() {
+            document.getElementById('admin-products-list').innerHTML = storeState.products.map(p => `
+                <div class="flex items-center justify-between bg-obsidian p-2.5 rounded-xl border border-white/10 text-xs">
+                    <span class="text-white font-bold">${p.name}</span>
+                    <button onclick="deleteProduct('${p.id}')" class="text-red-400 p-1"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function saveProductFromAdmin() {
+            const name = document.getElementById('prod-name-input').value.trim();
+            const price = Number(document.getElementById('prod-price-input').value);
+            const category = document.getElementById('prod-cat-input').value;
+            const image = document.getElementById('prod-img-input').value.trim() || 'https://placehold.co/600x750/121212/FFFFFF?text=ONE';
+            const description = document.getElementById('prod-desc-input').value.trim();
+            const extraDetails = document.getElementById('prod-extra-details-input').value.trim();
+            if (!name || !price) {
+                showToast('أدخل الاسم والسعر');
+                return;
+            }
+            storeState.products.unshift({ id: 'p-' + Date.now(), name, price, category, image, sizes: ['S', 'M', 'L', 'XL'], description, extraDetails });
+            renderProducts();
+            renderAdminProducts();
+            showToast('تمت إضافة المنتج بنجاح');
+        }
+
+        function deleteProduct(id) {
+            storeState.products = storeState.products.filter(p => p.id !== id);
+            renderProducts();
+            renderAdminProducts();
+            showToast('تم الحذف');
+        }
+
+        function renderAdminGovs() {
+            document.getElementById('admin-governorates-list').innerHTML = storeState.governorates.map((g, i) => `
+                <div class="flex justify-between items-center bg-obsidian p-2 rounded-xl text-xs text-white">
+                    <span>${g.name} (${g.price} EGP)</span>
+                    <button onclick="storeState.governorates.splice(${i},1); renderAdminGovs();" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function addNewGovernorate() {
+            const name = document.getElementById('new-gov-name').value.trim();
+            const price = Number(document.getElementById('new-gov-price').value);
+            if (!name || isNaN(price)) return;
+            storeState.governorates.push({ name, price });
+            document.getElementById('new-gov-name').value = '';
+            document.getElementById('new-gov-price').value = '';
+            renderAdminGovs();
+            showToast('تمت إضافة المحافظة');
+        }
+
+        function renderOrders() {
+            document.getElementById('orders-count-badge').innerText = storeState.orders.length;
+            document.getElementById('admin-orders-list').innerHTML = storeState.orders.length === 0 ? '<p class="text-neutral-500 text-xs">لا توجد طلبات</p>' : storeState.orders.map(o => `
+                <div class="bg-obsidian p-3 rounded-xl border border-white/10 text-xs text-white space-y-1">
+                    <p class="font-bold">${o.id} - ${o.name} (${o.phone})</p>
+                    <p class="text-neutral-400">العنوان: ${o.address}</p>
+                    <p class="font-mono text-emerald-400">الإجمالي: ${o.total} EGP</p>
+                </div>
+            `).join('');
+        }
+
+        function openSizeGuideModal() { document.getElementById('size-guide-modal').classList.remove('hidden'); }
+        function closeSizeGuideModal() { document.getElementById('size-guide-modal').classList.add('hidden'); }
+    </script>
+</body>
+</html>
